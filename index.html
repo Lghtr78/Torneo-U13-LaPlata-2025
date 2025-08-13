@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Torneo Provincial U13 – La Plata 2025</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+    /* Estilos para los inputs de puntaje y las insignias.  
+       En lugar de usar la directiva `@apply` de Tailwind (que sólo
+       funciona durante el proceso de compilación), definimos de forma
+       explícita las propiedades CSS equivalentes. Esto garantiza que
+       los estilos se apliquen correctamente en entornos estáticos
+       como GitHub Pages o al abrir el archivo directamente en el
+       navegador. */
+    .score-input {
+      /* Tailwind w-20 h-12 text-center text-xl font-semibold border rounded-lg */
+      width: 5rem;
+      height: 3rem;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 600;
+      border: 1px solid rgb(203 213 225 / 1); /* border-slate-300 */
+      border-radius: 0.5rem;
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
+      background-color: rgb(241 245 249 / 1); /* bg-slate-100 */
+      color: rgb(30 41 59 / 1); /* text-slate-800 */
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 9999px;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background-color: rgb(241 245 249 / 1); /* bg-slate-100 */
+      color: rgb(71 85 105 / 1); /* text-slate-700 */
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <header class="max-w-6xl mx-auto px-4 pt-8 pb-6">
+    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Torneo Provincial U13 Masculino – La Plata 2025</h1>
+    <p class="mt-2 text-slate-600">App interactiva: fase de grupos, clasificación automática y cuadro final.</p>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 pb-16">
+    <!-- Tabs -->
+    <div class="flex gap-2 mb-6">
+      <button id="tab-grupos" class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-700">Fase de Grupos</button>
+      <button id="tab-final" class="px-4 py-2 rounded-xl bg-white text-slate-800 font-semibold border hover:bg-slate-100">Fase Final</button>
+      <div class="grow"></div>
+      <button id="btn-reset" class="px-4 py-2 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100">Reiniciar puntajes</button>
+    </div>
+
+    <!-- FASE DE GRUPOS -->
+    <section id="view-grupos" class="space-y-10">
+      <!-- Zona Norte -->
+      <div class="bg-white rounded-2xl shadow p-5">
+        <div class="flex items-center justify-between gap-4 flex-wrap">
+          <h2 class="text-2xl font-bold">Zona Norte</h2>
+          <span class="badge">Equipos: La Plata · Chivilcoy · Junín</span>
+        </div>
+        <div id="matches-norte" class="mt-4 grid md:grid-cols-2 gap-4"></div>
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold mb-2">Tabla de posiciones</h3>
+          <div class="overflow-x-auto">
+            <table id="tabla-norte" class="min-w-full text-sm">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700">
+                  <th class="p-2 text-left">Equipo</th>
+                  <th class="p-2">PJ</th>
+                  <th class="p-2">PG</th>
+                  <th class="p-2">PP</th>
+                  <th class="p-2">PF</th>
+                  <th class="p-2">PC</th>
+                  <th class="p-2">Dif</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Zona Sur -->
+      <div class="bg-white rounded-2xl shadow p-5">
+        <div class="flex items-center justify-between gap-4 flex-wrap">
+          <h2 class="text-2xl font-bold">Zona Sur</h2>
+          <span class="badge">Equipos: Mar del Plata · Bahía Blanca · Olavarría</span>
+        </div>
+        <div id="matches-sur" class="mt-4 grid md:grid-cols-2 gap-4"></div>
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold mb-2">Tabla de posiciones</h3>
+          <div class="overflow-x-auto">
+            <table id="tabla-sur" class="min-w-full text-sm">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700">
+                  <th class="p-2 text-left">Equipo</th>
+                  <th class="p-2">PJ</th>
+                  <th class="p-2">PG</th>
+                  <th class="p-2">PP</th>
+                  <th class="p-2">PF</th>
+                  <th class="p-2">PC</th>
+                  <th class="p-2">Dif</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FASE FINAL -->
+    <section id="view-final" class="hidden space-y-10">
+      <div class="bg-white rounded-2xl shadow p-5">
+        <h2 class="text-2xl font-bold">Semifinales · Sábado 16/08 – 19:30</h2>
+        <p class="text-sm text-slate-500">Sedes: Semifinal 1 → Club Platense · Semifinal 2 → Club Universal</p>
+        <div class="mt-4 grid md:grid-cols-2 gap-4">
+          <div class="rounded-xl border p-4">
+            <div class="text-xs text-slate-500 mb-1">Semifinal 1 – 1º Zona Sur vs 2º Zona Norte (Platense)</div>
+            <div class="flex items-center justify-between gap-2">
+              <span id="sf1-home" class="font-semibold">1º Zona Sur</span>
+              <input id="sf1-home-score" type="number" min="0" class="score-input"/>
+            </div>
+            <div class="flex items-center justify-between gap-2 mt-3">
+              <span id="sf1-away" class="font-semibold">2º Zona Norte</span>
+              <input id="sf1-away-score" type="number" min="0" class="score-input"/>
+            </div>
+          </div>
+          <div class="rounded-xl border p-4">
+            <div class="text-xs text-slate-500 mb-1">Semifinal 2 – 1º Zona Norte vs 2º Zona Sur (Universal)</div>
+            <div class="flex items-center justify-between gap-2">
+              <span id="sf2-home" class="font-semibold">1º Zona Norte</span>
+              <input id="sf2-home-score" type="number" min="0" class="score-input"/>
+            </div>
+            <div class="flex items-center justify-between gap-2 mt-3">
+              <span id="sf2-away" class="font-semibold">2º Zona Sur</span>
+              <input id="sf2-away-score" type="number" min="0" class="score-input"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-5">
+        <h2 class="text-2xl font-bold">Reubicación 5º–6º · Sábado 16/08 – 19:30 · Club Reconquista</h2>
+        <div class="mt-4 rounded-xl border p-4">
+          <div class="flex items-center justify-between gap-2">
+            <span id="r56-home" class="font-semibold">3º Zona Norte</span>
+            <input id="r56-home-score" type="number" min="0" class="score-input"/>
+          </div>
+          <div class="flex items-center justify-between gap-2 mt-3">
+            <span id="r56-away" class="font-semibold">3º Zona Sur</span>
+            <input id="r56-away-score" type="number" min="0" class="score-input"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-5">
+        <h2 class="text-2xl font-bold">Domingo 17/08 – Club Platense</h2>
+        <div class="grid md:grid-cols-2 gap-4 mt-2">
+          <div class="rounded-xl border p-4">
+            <div class="text-xs text-slate-500 mb-1">10:30 · Reubicación 3º–4º</div>
+            <div class="flex items-center justify-between gap-2">
+              <span id="r34-home" class="font-semibold">Perdedor SF1</span>
+              <input id="r34-home-score" type="number" min="0" class="score-input"/>
+            </div>
+            <div class="flex items-center justify-between gap-2 mt-3">
+              <span id="r34-away" class="font-semibold">Perdedor SF2</span>
+              <input id="r34-away-score" type="number" min="0" class="score-input"/>
+            </div>
+          </div>
+          <div class="rounded-xl border p-4">
+            <div class="text-xs text-slate-500 mb-1">12:30 · Final</div>
+            <div class="flex items-center justify-between gap-2">
+              <span id="final-home" class="font-semibold">Ganador SF1</span>
+              <input id="final-home-score" type="number" min="0" class="score-input"/>
+            </div>
+            <div class="flex items-center justify-between gap-2 mt-3">
+              <span id="final-away" class="font-semibold">Ganador SF2</span>
+              <input id="final-away-score" type="number" min="0" class="score-input"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ===== Datos del fixture (según lo trabajado) =====
+    const zonas = {
+      norte: {
+        nombre: 'Zona Norte',
+        equipos: ['La Plata', 'Chivilcoy', 'Junín'],
+        matches: [
+          { id:'N1', fecha:'Jue 14/08', hora:'18:30', sede:'Club Platense', home:'La Plata', away:'Chivilcoy' },
+          { id:'N2', fecha:'Vie 15/08', hora:'10:00', sede:'Club Platense', home:'Junín', away:'Chivilcoy' },
+          { id:'N3', fecha:'Vie 15/08', hora:'18:30', sede:'Club Platense', home:'La Plata', away:'Junín' },
+        ]
+      },
+      sur: {
+        nombre: 'Zona Sur',
+        equipos: ['Mar del Plata', 'Bahía Blanca', 'Olavarría'],
+        matches: [
+          { id:'S1', fecha:'Jue 14/08', hora:'18:30', sede:'Club Universal', home:'Mar del Plata', away:'Olavarría' },
+          { id:'S2', fecha:'Vie 15/08', hora:'10:00', sede:'Club Universal', home:'Bahía Blanca', away:'Olavarría' },
+          { id:'S3', fecha:'Vie 15/08', hora:'18:30', sede:'Club Universal', home:'Bahía Blanca', away:'Mar del Plata' },
+        ]
+      }
+    };
+
+    // Estado de marcador (se persiste en localStorage)
+    const LS_KEY = 'u13_scores_v1';
+    let state = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+
+    function saveState(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+
+    // ===== Render de partidos de grupos =====
+    function renderGroup(containerId, tablaId, zonaKey){
+      const zona = zonas[zonaKey];
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+
+      zona.matches.forEach(m => {
+        const keyHome = `${m.id}_H`;
+        const keyAway = `${m.id}_A`;
+        const vH = state[keyHome] ?? '';
+        const vA = state[keyAway] ?? '';
+
+        const card = document.createElement('div');
+        card.className = 'rounded-xl border p-4 bg-white';
+        card.innerHTML = `
+          <div class="text-xs text-slate-500 mb-2">${m.fecha} · ${m.hora} · ${m.sede}</div>
+          <div class="flex items-center justify-between gap-2">
+            <span class="font-semibold">${m.home}</span>
+            <input inputmode="numeric" type="number" min="0" id="${keyHome}" value="${vH}" class="score-input"/>
+          </div>
+          <div class="flex items-center justify-between gap-2 mt-3">
+            <span class="font-semibold">${m.away}</span>
+            <input inputmode="numeric" type="number" min="0" id="${keyAway}" value="${vA}" class="score-input"/>
+          </div>`;
+
+        container.appendChild(card);
+
+        card.querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => {
+          const val = inp.value === '' ? '' : Math.max(0, parseInt(inp.value, 10));
+          state[inp.id] = isNaN(val) ? '' : val;
+          saveState();
+          updateStandings('norte');
+          updateStandings('sur');
+          autofillBracket();
+        }));
+      });
+
+      updateStandings(zonaKey);
+    }
+
+    // ===== Cálculo de tabla de posiciones =====
+    function updateStandings(zonaKey){
+      const zona = zonas[zonaKey];
+      // init stats
+      const stats = Object.fromEntries(zona.equipos.map(t => [t, {PJ:0, PG:0, PP:0, PF:0, PC:0, Dif:0}]));
+
+      // procesar partidos con scores
+      zona.matches.forEach(m => {
+        const h = state[`${m.id}_H`];
+        const a = state[`${m.id}_A`];
+        if(h === '' || a === '' || isNaN(h) || isNaN(a)) return; // incompleto
+        stats[m.home].PJ++; stats[m.away].PJ++;
+        stats[m.home].PF += h; stats[m.home].PC += a;
+        stats[m.away].PF += a; stats[m.away].PC += h;
+        if(h > a){ stats[m.home].PG++; stats[m.away].PP++; }
+        else if(a > h){ stats[m.away].PG++; stats[m.home].PP++; }
+        else { // empates poco probables en básquet, pero contemplamos
+          // se podría decidir en suplementario; acá no sumamos PG a nadie
+        }
+      });
+      Object.values(stats).forEach(s => s.Dif = s.PF - s.PC);
+
+      // ordenamiento: PG desc, Dif desc, head-to-head si empatan dos
+      let rows = Object.entries(stats);
+      rows.sort((a,b) => {
+        // Ordenar por victorias (PG) descendente
+        if (b[1].PG !== a[1].PG) return b[1].PG - a[1].PG;
+        // Luego por diferencia de puntos descendente
+        if (b[1].Dif !== a[1].Dif) return b[1].Dif - a[1].Dif;
+        // Si siguen empatados, ordenar por puntos a favor (PF) descendente
+        if (b[1].PF !== a[1].PF) return b[1].PF - a[1].PF;
+        // Si persiste el empate, aplicar enfrentamiento directo (head-to-head)
+        const res = headToHead(zona.matches, a[0], b[0]);
+        if (res !== 0) return -res; // si a le ganó a b → res=1 → a antes (negamos porque sort asc)
+        // Finalmente, ordenar alfabéticamente para asegurar un orden determinista
+        return a[0].localeCompare(b[0]);
+      });
+
+      // pintar tabla
+      const tbody = document.querySelector(`#tabla-${zonaKey} tbody`);
+      tbody.innerHTML = '';
+      rows.forEach(([team, s]) => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b';
+        tr.innerHTML = `
+          <td class="p-2 font-medium">${team}</td>
+          <td class="p-2 text-center">${s.PJ}</td>
+          <td class="p-2 text-center">${s.PG}</td>
+          <td class="p-2 text-center">${s.PP}</td>
+          <td class="p-2 text-center">${s.PF}</td>
+          <td class="p-2 text-center">${s.PC}</td>
+          <td class="p-2 text-center">${s.Dif}</td>`;
+        tbody.appendChild(tr);
+      });
+
+      // guardar clasificación actual para autofill de llaves
+      state[`rank_${zonaKey}`] = rows.map(r => r[0]);
+      saveState();
+    }
+
+    function headToHead(matches, teamA, teamB){
+      // retorna 1 si A ganó, -1 si B ganó, 0 si no hay datos o empate
+      const m = matches.find(x => (x.home===teamA && x.away===teamB) || (x.home===teamB && x.away===teamA));
+      if(!m) return 0;
+      const h = state[`${m.id}_H`];
+      const a = state[`${m.id}_A`];
+      if(h === '' || a === '' || isNaN(h) || isNaN(a)) return 0;
+      if(m.home===teamA){ return h>a ? 1 : (a>h ? -1 : 0); }
+      else { return a>h ? 1 : (h>a ? -1 : 0); }
+    }
+
+    // ===== Autofill de la Fase Final =====
+    function text(id, value){ document.getElementById(id).textContent = value; }
+
+    function autofillBracket(){
+      const Rn = state['rank_norte'] || [];
+      const Rs = state['rank_sur'] || [];
+
+      const n1 = Rn[0] || '1º Zona Norte';
+      const n2 = Rn[1] || '2º Zona Norte';
+      const n3 = Rn[2] || '3º Zona Norte';
+      const s1 = Rs[0] || '1º Zona Sur';
+      const s2 = Rs[1] || '2º Zona Sur';
+      const s3 = Rs[2] || '3º Zona Sur';
+
+      text('sf1-home', s1); // 1º Sur
+      text('sf1-away', n2); // 2º Norte
+      text('sf2-home', n1); // 1º Norte
+      text('sf2-away', s2); // 2º Sur
+      text('r56-home', n3); // 3º Norte
+      text('r56-away', s3); // 3º Sur
+
+      // Si ya hay resultados de semifinales, pasar ganadores/perdedores
+      propagateFromSemis();
+    }
+
+    function winnerName(hName, aName, hVal, aVal){
+      if(hVal === '' || aVal === '' || isNaN(hVal) || isNaN(aVal)) return null;
+      if(hVal === aVal) return null; // se evita empate; debería resolverse en suplementario
+      return hVal > aVal ? hName : aName;
+    }
+
+    function loserName(hName, aName, hVal, aVal){
+      if(hVal === '' || aVal === '' || isNaN(hVal) || isNaN(aVal)) return null;
+      if(hVal === aVal) return null;
+      return hVal > aVal ? aName : hName;
+    }
+
+    function propagateFromSemis(){
+      const sf1H = document.getElementById('sf1-home').textContent;
+      const sf1A = document.getElementById('sf1-away').textContent;
+      const sf2H = document.getElementById('sf2-home').textContent;
+      const sf2A = document.getElementById('sf2-away').textContent;
+
+      const sf1Hs = parseInt(document.getElementById('sf1-home-score').value, 10);
+      const sf1As = parseInt(document.getElementById('sf1-away-score').value, 10);
+      const sf2Hs = parseInt(document.getElementById('sf2-home-score').value, 10);
+      const sf2As = parseInt(document.getElementById('sf2-away-score').value, 10);
+
+      const w1 = winnerName(sf1H, sf1A, sf1Hs, sf1As);
+      const l1 = loserName(sf1H, sf1A, sf1Hs, sf1As);
+      const w2 = winnerName(sf2H, sf2A, sf2Hs, sf2As);
+      const l2 = loserName(sf2H, sf2A, sf2Hs, sf2As);
+
+      text('final-home', w1 || 'Ganador SF1');
+      text('final-away', w2 || 'Ganador SF2');
+      text('r34-home', l1 || 'Perdedor SF1');
+      text('r34-away', l2 || 'Perdedor SF2');
+    }
+
+    // Eventos de semifinales para propagar
+    ['sf1-home-score','sf1-away-score','sf2-home-score','sf2-away-score']
+      .forEach(id => document.addEventListener('input', (e)=>{
+        if(e.target.id === id){ propagateFromSemis(); }
+      }));
+
+    // Tabs
+    const tabGrupos = document.getElementById('tab-grupos');
+    const tabFinal = document.getElementById('tab-final');
+    const viewGrupos = document.getElementById('view-grupos');
+    const viewFinal = document.getElementById('view-final');
+
+    tabGrupos.addEventListener('click', ()=>{
+      tabGrupos.classList.remove('bg-white','text-slate-800','border');
+      tabGrupos.classList.add('bg-indigo-600','text-white');
+      tabFinal.classList.remove('bg-indigo-600','text-white');
+      tabFinal.classList.add('bg-white','text-slate-800','border');
+      viewGrupos.classList.remove('hidden');
+      viewFinal.classList.add('hidden');
+    });
+
+    tabFinal.addEventListener('click', ()=>{
+      tabFinal.classList.remove('bg-white','text-slate-800','border');
+      tabFinal.classList.add('bg-indigo-600','text-white');
+      tabGrupos.classList.remove('bg-indigo-600','text-white');
+      tabGrupos.classList.add('bg-white','text-slate-800','border');
+      viewFinal.classList.remove('hidden');
+      viewGrupos.classList.add('hidden');
+    });
+
+    // Reset
+    document.getElementById('btn-reset').addEventListener('click', ()=>{
+      if(confirm('¿Borrar todos los puntajes ingresados?')){
+        state = {};
+        saveState();
+        renderAll();
+      }
+    });
+
+    function renderAll(){
+      renderGroup('matches-norte','tabla-norte','norte');
+      renderGroup('matches-sur','tabla-sur','sur');
+      autofillBracket();
+    }
+
+    // init
+    renderAll();
+  </script>
+</body>
+</html>
