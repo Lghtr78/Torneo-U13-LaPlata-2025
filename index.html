@@ -6,6 +6,8 @@
   <title>Torneo Provincial U13 – La Plata 2025</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- html2canvas CDN for generating visual reports (for the report button) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
     /* Estilos para los inputs de puntaje y las insignias.  
        En lugar de usar la directiva `@apply` de Tailwind (que sólo
@@ -52,6 +54,8 @@
       <button id="tab-grupos" class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-700">Fase de Grupos</button>
       <button id="tab-final" class="px-4 py-2 rounded-xl bg-white text-slate-800 font-semibold border hover:bg-slate-100">Fase Final</button>
       <div class="grow"></div>
+      <!-- Botón para generar un reporte visual del fixture actual -->
+      <button id="btn-report" class="px-4 py-2 rounded-xl bg-green-600 text-white font-semibold border border-green-700 hover:bg-green-700">Generar reporte</button>
       <button id="btn-reset" class="px-4 py-2 rounded-xl bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100">Reiniciar puntajes</button>
     </div>
 
@@ -424,6 +428,34 @@
         state = {};
         saveState();
         renderAll();
+      }
+    });
+
+    // Report generation: captura el contenido actual y descarga una imagen PNG.
+    document.getElementById('btn-report').addEventListener('click', async () => {
+      const reportBtn = document.getElementById('btn-report');
+      const resetBtn = document.getElementById('btn-reset');
+      // Ocultar botones interactivos para que no aparezcan en el reporte
+      reportBtn.style.display = 'none';
+      resetBtn.style.display = 'none';
+      // Selecciona el elemento principal que contiene el fixture
+      const mainElement = document.querySelector('main');
+      try {
+        const canvas = await html2canvas(mainElement, { scale: 2, useCORS: true });
+        const imgData = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = imgData;
+        link.download = 'torneo_u13_reporte.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch (err) {
+        console.error('Error al generar el reporte:', err);
+        alert('Ocurrió un error al generar el reporte. Inténtalo de nuevo.');
+      } finally {
+        // Restaurar la visibilidad de los botones
+        reportBtn.style.display = '';
+        resetBtn.style.display = '';
       }
     });
 
