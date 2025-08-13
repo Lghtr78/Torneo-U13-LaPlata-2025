@@ -4,11 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Torneo Provincial U13 – La Plata 2025</title>
+  <!-- Google Fonts for bold uppercase headings -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400;700&display=swap" rel="stylesheet">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- html2canvas CDN for generating visual reports (for the report button) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <style>
+  <style>
     /* Estilos para los inputs de puntaje y las insignias.  
        En lugar de usar la directiva `@apply` de Tailwind (que sólo
        funciona durante el proceso de compilación), definimos de forma
@@ -40,19 +42,30 @@
       background-color: rgb(241 245 249 / 1); /* bg-slate-100 */
       color: rgb(71 85 105 / 1); /* text-slate-700 */
     }
+
+    /* Dark gradient background for the body */
+    body {
+      background: linear-gradient(135deg, #002d5c 0%, #0a4a8d 100%);
+      color: #fff;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body>
   <header class="max-w-6xl mx-auto px-4 pt-8 pb-6">
-    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Torneo Provincial U13 Masculino – La Plata 2025</h1>
-    <p class="mt-2 text-slate-600">App interactiva: fase de grupos, clasificación automática y cuadro final.</p>
+    <div class="flex items-center gap-4">
+      <!-- Logo de la APdeB en la cabecera -->
+      <img src="apdeb_logo.png" alt="APdeB" class="h-14 w-auto"/>
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight uppercase" style="font-family: 'Bebas Neue', sans-serif;">Torneo Provincial U13 Masculino – La Plata 2025</h1>
+    </div>
+    <p class="mt-2 text-blue-200">App interactiva: fase de grupos, clasificación automática y cuadro final.</p>
   </header>
 
   <main class="max-w-6xl mx-auto px-4 pb-16">
     <!-- Tabs -->
     <div class="flex gap-2 mb-6">
-      <button id="tab-grupos" class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold shadow hover:bg-indigo-700">Fase de Grupos</button>
-      <button id="tab-final" class="px-4 py-2 rounded-xl bg-white text-slate-800 font-semibold border hover:bg-slate-100">Fase Final</button>
+      <button id="tab-grupos" class="px-4 py-2 rounded-xl bg-blue-600 text-white font-semibold shadow hover:bg-blue-700">Fase de Grupos</button>
+      <button id="tab-final" class="px-4 py-2 rounded-xl bg-blue-50 text-blue-900 font-semibold border border-blue-200 hover:bg-blue-100">Fase Final</button>
       <div class="grow"></div>
       <!-- Botón para generar un reporte visual del fixture actual -->
       <button id="btn-report" class="px-4 py-2 rounded-xl bg-green-600 text-white font-semibold border border-green-700 hover:bg-green-700">Generar reporte</button>
@@ -62,7 +75,7 @@
     <!-- FASE DE GRUPOS -->
     <section id="view-grupos" class="space-y-10">
       <!-- Zona Norte -->
-      <div class="bg-white rounded-2xl shadow p-5">
+      <div class="bg-white bg-opacity-80 rounded-2xl shadow p-5 backdrop-blur-md">
         <div class="flex items-center justify-between gap-4 flex-wrap">
           <h2 class="text-2xl font-bold">Zona Norte</h2>
           <span class="badge">Equipos: La Plata · Chivilcoy · Junín</span>
@@ -90,7 +103,7 @@
       </div>
 
       <!-- Zona Sur -->
-      <div class="bg-white rounded-2xl shadow p-5">
+      <div class="bg-white bg-opacity-80 rounded-2xl shadow p-5 backdrop-blur-md">
         <div class="flex items-center justify-between gap-4 flex-wrap">
           <h2 class="text-2xl font-bold">Zona Sur</h2>
           <span class="badge">Equipos: Mar del Plata · Bahía Blanca · Olavarría</span>
@@ -120,7 +133,7 @@
 
     <!-- FASE FINAL -->
     <section id="view-final" class="hidden space-y-10">
-      <div class="bg-white rounded-2xl shadow p-5">
+      <div class="bg-white bg-opacity-80 rounded-2xl shadow p-5 backdrop-blur-md">
         <h2 class="text-2xl font-bold">Semifinales · Sábado 16/08 – 19:30</h2>
         <p class="text-sm text-slate-500">Sedes: Semifinal 1 → Club Platense · Semifinal 2 → Club Universal</p>
         <div class="mt-4 grid md:grid-cols-2 gap-4">
@@ -149,7 +162,7 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl shadow p-5">
+      <div class="bg-white bg-opacity-80 rounded-2xl shadow p-5 backdrop-blur-md">
         <h2 class="text-2xl font-bold">Reubicación 5º–6º · Sábado 16/08 – 19:30 · Club Reconquista</h2>
         <div class="mt-4 rounded-xl border p-4">
           <div class="flex items-center justify-between gap-2">
@@ -163,7 +176,7 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-2xl shadow p-5">
+      <div class="bg-white bg-opacity-80 rounded-2xl shadow p-5 backdrop-blur-md">
         <h2 class="text-2xl font-bold">Domingo 17/08 – Club Platense</h2>
         <div class="grid md:grid-cols-2 gap-4 mt-2">
           <div class="rounded-xl border p-4">
@@ -216,6 +229,16 @@
       }
     };
 
+    // Mapa de logotipos: se asigna la ruta de la imagen a cada equipo.
+    const teamLogos = {
+      'La Plata': 'apdeb_logo.png',
+      'Chivilcoy': '',
+      'Junín': 'ajb_logo.png',
+      'Mar del Plata': 'amb_logo.png',
+      'Bahía Blanca': 'abb_logo.png',
+      'Olavarría': 'abo_logo.png'
+    };
+
     // Estado de marcador (se persiste en localStorage)
     const LS_KEY = 'u13_scores_v1';
     let state = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
@@ -235,15 +258,18 @@
         const vA = state[keyAway] ?? '';
 
         const card = document.createElement('div');
-        card.className = 'rounded-xl border p-4 bg-white';
+        card.className = 'rounded-xl border p-4 bg-white bg-opacity-90 backdrop-blur-md';
+        // Obtener las rutas de los logotipos si existen
+        const homeLogo = teamLogos[m.home] ? `<img src="${teamLogos[m.home]}" alt="${m.home}" class="h-8 w-8 object-contain">` : '';
+        const awayLogo = teamLogos[m.away] ? `<img src="${teamLogos[m.away]}" alt="${m.away}" class="h-8 w-8 object-contain">` : '';
         card.innerHTML = `
           <div class="text-xs text-slate-500 mb-2">${m.fecha} · ${m.hora} · ${m.sede}</div>
           <div class="flex items-center justify-between gap-2">
-            <span class="font-semibold">${m.home}</span>
+            <div class="flex items-center gap-2">${homeLogo}<span class="font-semibold text-slate-800">${m.home}</span></div>
             <input inputmode="numeric" type="number" min="0" id="${keyHome}" value="${vH}" class="score-input"/>
           </div>
           <div class="flex items-center justify-between gap-2 mt-3">
-            <span class="font-semibold">${m.away}</span>
+            <div class="flex items-center gap-2">${awayLogo}<span class="font-semibold text-slate-800">${m.away}</span></div>
             <input inputmode="numeric" type="number" min="0" id="${keyAway}" value="${vA}" class="score-input"/>
           </div>`;
 
@@ -405,19 +431,20 @@
     const viewFinal = document.getElementById('view-final');
 
     tabGrupos.addEventListener('click', ()=>{
-      tabGrupos.classList.remove('bg-white','text-slate-800','border');
-      tabGrupos.classList.add('bg-indigo-600','text-white');
-      tabFinal.classList.remove('bg-indigo-600','text-white');
-      tabFinal.classList.add('bg-white','text-slate-800','border');
+      // Cambiar colores de las pestañas para el modo oscuro
+      tabGrupos.classList.remove('bg-blue-50','text-blue-900','border','border-blue-200');
+      tabGrupos.classList.add('bg-blue-600','text-white');
+      tabFinal.classList.remove('bg-blue-600','text-white');
+      tabFinal.classList.add('bg-blue-50','text-blue-900','border','border-blue-200');
       viewGrupos.classList.remove('hidden');
       viewFinal.classList.add('hidden');
     });
 
     tabFinal.addEventListener('click', ()=>{
-      tabFinal.classList.remove('bg-white','text-slate-800','border');
-      tabFinal.classList.add('bg-indigo-600','text-white');
-      tabGrupos.classList.remove('bg-indigo-600','text-white');
-      tabGrupos.classList.add('bg-white','text-slate-800','border');
+      tabFinal.classList.remove('bg-blue-50','text-blue-900','border','border-blue-200');
+      tabFinal.classList.add('bg-blue-600','text-white');
+      tabGrupos.classList.remove('bg-blue-600','text-white');
+      tabGrupos.classList.add('bg-blue-50','text-blue-900','border','border-blue-200');
       viewFinal.classList.remove('hidden');
       viewGrupos.classList.add('hidden');
     });
