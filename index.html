@@ -75,7 +75,8 @@
     <!-- FASE DE GRUPOS -->
     <section id="view-grupos" class="space-y-10">
       <!-- Zona Norte -->
-      <div class="bg-white bg-opacity-80 rounded-2xl shadow p-5 backdrop-blur-md">
+      <!-- Zona Norte container with darker text for better contrast -->
+      <div class="bg-white bg-opacity-80 rounded-2xl shadow p-5 backdrop-blur-md text-slate-900">
         <div class="flex items-center justify-between gap-4 flex-wrap">
           <h2 class="text-2xl font-bold">Zona Norte</h2>
           <span class="badge">Equipos: La Plata · Chivilcoy · Junín</span>
@@ -103,7 +104,8 @@
       </div>
 
       <!-- Zona Sur -->
-      <div class="bg-white bg-opacity-80 rounded-2xl shadow p-5 backdrop-blur-md">
+      <!-- Zona Sur container with darker text for better contrast -->
+      <div class="bg-white bg-opacity-80 rounded-2xl shadow p-5 backdrop-blur-md text-slate-900">
         <div class="flex items-center justify-between gap-4 flex-wrap">
           <h2 class="text-2xl font-bold">Zona Sur</h2>
           <span class="badge">Equipos: Mar del Plata · Bahía Blanca · Olavarría</span>
@@ -132,7 +134,7 @@
     </section>
 
     <!-- FASE FINAL -->
-    <section id="view-final" class="hidden space-y-10">
+    <section id="view-final" class="hidden space-y-10 text-slate-900">
       <div class="bg-white bg-opacity-80 rounded-2xl shadow p-5 backdrop-blur-md">
         <h2 class="text-2xl font-bold">Semifinales · Sábado 16/08 – 19:30</h2>
         <p class="text-sm text-slate-500">Sedes: Semifinal 1 → Club Platense · Semifinal 2 → Club Universal</p>
@@ -232,7 +234,7 @@
     // Mapa de logotipos: se asigna la ruta de la imagen a cada equipo.
     const teamLogos = {
       'La Plata': 'apdeb_logo.png',
-      'Chivilcoy': '',
+      'Chivilcoy': 'chivilcoy_logo.png',
       'Junín': 'ajb_logo.png',
       'Mar del Plata': 'amb_logo.png',
       'Bahía Blanca': 'abb_logo.png',
@@ -258,7 +260,8 @@
         const vA = state[keyAway] ?? '';
 
         const card = document.createElement('div');
-        card.className = 'rounded-xl border p-4 bg-white bg-opacity-90 backdrop-blur-md';
+        // Card with semi-transparent white background and dark text for readability
+        card.className = 'rounded-xl border p-4 bg-white bg-opacity-90 backdrop-blur-md text-slate-900';
         // Obtener las rutas de los logotipos si existen
         const homeLogo = teamLogos[m.home] ? `<img src="${teamLogos[m.home]}" alt="${m.home}" class="h-8 w-8 object-contain">` : '';
         const awayLogo = teamLogos[m.away] ? `<img src="${teamLogos[m.away]}" alt="${m.away}" class="h-8 w-8 object-contain">` : '';
